@@ -14,6 +14,45 @@ function PlayersList() {
         })
     }, [])
 
+    const handleInputChange = (placeId: number, value: string) => {
+        setPlayers(prev =>
+            prev.map(player =>
+                player.place === placeId
+                    ? { ...player, inputValue: value }
+                    : player
+            )
+        );
+    };
+
+    const handleBalanceChange = async (deviceId: number, placeId: number, delta: number) => {
+        try {
+            const response = await fetch(
+                `/api/v1/a/devices/${deviceId}/place/${placeId}/update`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ delta })
+                }
+            );
+
+            const data = await response.json();
+
+            setPlayers(prev =>
+                prev.map(player =>
+                    player.place === placeId
+                        ? { ...player, balances: data.balances, inputValue: "" }
+                        : player
+                )
+            );
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="px-8">
             <h1 className="font-bold text-3xl text-gray-800 py-8">{`Device ${state.deviceName} players`} </h1>
@@ -23,10 +62,16 @@ function PlayersList() {
                         <p className="inline font-bold text-xl text-gray-800">Player {player.place}</p>
                         <p>Balance: {player.balances}</p>
                         <div className="flex flex-col gap-2">
-                            <input type="text" placeholder="Enter amount" className="border-2 border-gray-300 rounded-md p-2"></input>
+                            <input
+                                type="text"
+                                placeholder="Enter amount"
+                                className="border-2 border-gray-300 rounded-md p-2"
+                                onChange={(e) => handleInputChange(player.place, e.target.value)}
+                                value={player.inputValue}
+                            />
                             <div className="flex flex-col md:flex-row justify-between gap-2">
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">Deposit</button>
-                                <button className="bg-red-500 text-white px-4 py-2 rounded-md w-full">Withdraw</button>
+                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, Number(player.inputValue))} type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">Deposit</button>
+                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, -Number(player.inputValue))} type="button" className="bg-red-500 text-white px-4 py-2 rounded-md w-full">Withdraw</button>
                             </div>
                         </div>
                     </li>)}
