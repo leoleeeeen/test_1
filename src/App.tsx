@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Layout from "./components/Layout"
-import DevicesList from "./pages/DevicesList"
-import PlayersList from "./pages/PlayersList"
+import DevicesList from "./pages/DevicesList/DevicesList"
+import PlayersList from "./pages/PlayersList/PlayersList"
 
 const router = createBrowserRouter([
   {
@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <DevicesList /> },
-      { path: "device/:0", element: <PlayersList /> }
+      { path: "device/:deviceId", element: <PlayersList /> }
     ]
   }
 ])
