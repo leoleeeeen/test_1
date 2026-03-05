@@ -1,7 +1,9 @@
 //получение списка девайсов
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default async function fetchDevices() {
     try {
-        const res = await fetch("/api/v1/a/devices/");
+        const res = await fetch(`${API_URL}/api/v1/a/devices/`);
         if (!res.ok) {
             throw new Error("Failed to fetch devices");
         }

@@ -12,7 +12,11 @@ const router = createBrowserRouter([
       { path: "device/:deviceId", element: <PlayersList /> }
     ]
   }
-])
+],
+  {
+    basename: '/test_1'
+  }
+)
 
 function App() {
   return <RouterProvider router={router} />

@@ -1,10 +1,11 @@
 //запрос на изменение баланса
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default async function updateBalance(deviceId: number, placeId: number, delta: number) {
     const response = await fetch(
-        `/api/v1/a/devices/${deviceId}/place/${placeId}/update`,
+        `${API_URL}/api/v1/a/devices/${deviceId}/place/${placeId}/update`,
         {
             method: "POST",
-            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
