@@ -1,3 +1,4 @@
+//получение списка пользователей
 export default async function fetchUsers(deviceId: number) {
     try {
         const res = await fetch(`/api/v1/a/devices/${deviceId}/`);

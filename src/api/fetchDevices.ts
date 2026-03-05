@@ -1,3 +1,4 @@
+//получение списка девайсов
 export default async function fetchDevices() {
     try {
         const res = await fetch("/api/v1/a/devices/");

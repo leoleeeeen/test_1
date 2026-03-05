@@ -1,3 +1,4 @@
+//запрос на изменение баланса
 export default async function updateBalance(deviceId: number, placeId: number, delta: number) {
     const response = await fetch(
         `/api/v1/a/devices/${deviceId}/place/${placeId}/update`,

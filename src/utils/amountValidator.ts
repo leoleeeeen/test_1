@@ -1,3 +1,4 @@
+//валидация вводимой суммы
 export default function amountValidator(value: string) {
     if (!value) return "";
 

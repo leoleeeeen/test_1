@@ -1,3 +1,4 @@
+//компонент футера
 function Footer() {
     return (
         <div>

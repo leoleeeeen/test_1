@@ -2,9 +2,9 @@ import { useLocation } from "react-router-dom"
 import type { Player } from "./PlayersListTypes";
 import usePlayers from "./hooks/usePlayers";
 
-function PlayersList() {
+//отображение списка пользователей 
+export default function PlayersList() {
     const { state } = useLocation();
-
     const { players, handleInputChange, handleBalanceChange } = usePlayers(state);
 
     return (
@@ -23,10 +23,13 @@ function PlayersList() {
                                 onChange={(e) => handleInputChange(player.place, e.target.value)}
                                 value={player.inputValue ?? ""}
                             />
-                            <div className="h-5">{player.inputErrorMessage && <p className="text-red-800 text-sm">{player.inputErrorMessage}</p>}</div>
+                            <div className="h-5">
+                                {player.inputErrorMessage && <p className="text-red-800 text-sm">{player.inputErrorMessage}</p>}
+                                {player.serverErrorMessage && <p className="text-red-800 text-sm">{player.serverErrorMessage}</p>}
+                            </div>
                             <div className="flex flex-col md:flex-row justify-between gap-2">
-                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, player.inputValue, "Deposit")} type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full">Deposit</button>
-                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, player.inputValue, "Withdraw")} type="button" className="bg-red-500 text-white px-4 py-2 rounded-md w-full">Withdraw</button>
+                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, player.inputValue, "Deposit")} type="button" className="bg-blue-500 text-white px-4 py-2 rounded-md w-full cursor-pointer">Deposit</button>
+                                <button onClick={() => handleBalanceChange(state.deviceId, player.place, player.inputValue, "Withdraw")} type="button" className="bg-red-500 text-white px-4 py-2 rounded-md w-full cursor-pointer">Withdraw</button>
                             </div>
                         </div>
                     </li>)}
@@ -35,4 +38,4 @@ function PlayersList() {
     )
 }
 
-export default PlayersList
+
