@@ -1,73 +1,11 @@
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom"
-import type { Operations, Player } from "./PlayersListTypes";
-import fetchUsers from "../../api/fetchUsers";
-import updateBalance from "../../api/updateBalance";
+import type { Player } from "./PlayersListTypes";
+import usePlayers from "./hooks/usePlayers";
 
 function PlayersList() {
     const { state } = useLocation();
-    const [players, setPlayers] = useState<Player[]>([]);
 
-    useEffect(() => {
-        fetchUsers(state.deviceId).then((data) => {
-            const { places: players } = data;
-            setPlayers(players);
-        })
-    }, [])
-
-    const handleInputChange = (placeId: number, value: string) => {
-        const regex = /^\d*\.?\d{0,2}$/;
-
-        let error = "";
-
-        if (value !== "" && Number(value) <= 0) {
-            error = "The amount must be greater than 0";
-        } else if (!regex.test(value)) {
-            error = "No more than 2 decimal places";
-        }
-
-        setPlayers(prev =>
-            prev.map(player =>
-                player.place === placeId
-                    ? { ...player, inputValue: value, inputErrorMessage: error }
-                    : player
-            )
-        );
-    };
-
-    const handleBalanceChange = async (deviceId: number, placeId: number, inputValue: string, operation: Operations) => {
-        if (players.find((player) => player.place === placeId)?.inputErrorMessage) return;
-
-        let delta = Number(inputValue);
-
-        if (!delta) return;
-
-        if (operation === "Deposit") {
-            delta = delta;
-        } else {
-            delta = -delta;
-        }
-
-        const data = await updateBalance(deviceId, placeId, delta);
-
-        if (!data.balances) {
-            setPlayers(prev =>
-                prev.map(player =>
-                    player.place === placeId
-                        ? { ...player, errorMessage: data.err, inputValue: "" }
-                        : player
-                )
-            );
-        } else {
-            setPlayers(prev =>
-                prev.map(player =>
-                    player.place === placeId
-                        ? { ...player, balances: data.balances, errorMessage: "", inputValue: "" }
-                        : player
-                )
-            );
-        }
-    };
+    const { players, handleInputChange, handleBalanceChange } = usePlayers(state);
 
     return (
         <div className="px-8">
@@ -81,9 +19,9 @@ function PlayersList() {
                             <input
                                 type="text"
                                 placeholder="Enter amount"
-                                className="border-2 border-gray-300 rounded-md p-2"
+                                className={`border-2 border-gray-300 focus:outline-none rounded-md p-2 ${player.inputErrorMessage ? "border-red-500" : ""}`}
                                 onChange={(e) => handleInputChange(player.place, e.target.value)}
-                                value={player.inputValue}
+                                value={player.inputValue ?? ""}
                             />
                             <div className="h-5">{player.inputErrorMessage && <p className="text-red-800 text-sm">{player.inputErrorMessage}</p>}</div>
                             <div className="flex flex-col md:flex-row justify-between gap-2">

@@ -1,16 +1,9 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
-import fetchDevices from "../../api/fetchDevices";
 import type { Device } from "./DevicesListTypes";
+import useDevices from "./hooks/useDevices";
 
 function DevicesList() {
-    const [devices, setDevices] = useState<Device[] | null>(null);
-
-    useEffect(() => {
-        fetchDevices().then(data => {
-            setDevices(data);
-        });
-    }, []);
+    const { devices } = useDevices();
 
     return (
         <div className="px-8 mb-8">
@@ -21,7 +14,6 @@ function DevicesList() {
                         <Link to={`/device/${device.id}`} state={{ deviceName: device.name, deviceId: device.id }}><p className="inline">{device.name}</p></Link>
                     </li>
                 )}
-
             </ul>
         </div>
     )

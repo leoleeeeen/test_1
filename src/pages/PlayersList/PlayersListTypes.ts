@@ -6,4 +6,9 @@ export type Player = {
     inputErrorMessage: string;
 }
 
+export type State = {
+    deviceName: string;
+    deviceId: number;
+}
+
 export type Operations = "Deposit" | "Withdraw";
