@@ -25,7 +25,6 @@ export function usePlayers(state: State) {
         );
     };
 
-
     return {
         players,
         updatePlayer,

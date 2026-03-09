@@ -1,18 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { Layout } from "./components/Layout"
-import { DevicesList } from "./pages/DevicesList/DevicesList"
-import { PlayersList } from "./pages/PlayersList/PlayersList"
+import { routes } from "./routes"
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <DevicesList /> },
-      { path: "device/:deviceId", element: <PlayersList /> }
-    ]
-  }
-],
+const router = createBrowserRouter(
+  routes,
   {
     basename: '/test_1'
   }

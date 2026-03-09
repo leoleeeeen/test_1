@@ -11,11 +11,19 @@ export function usePlayer(
 
     const [inputError, setInputError] = useState("");
     const [serverError, setServerError] = useState("");
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const handleInputChange = (value: string) => {
         setServerError("");
         setNotification("");
-        setInputError(amountValidator(value));
+        const inputError = amountValidator(value);
+        setInputError(inputError);
+
+        if (value && !inputError) {
+            setIsButtonDisabled(false);
+        } else {
+            setIsButtonDisabled(true);
+        }
 
         const updates = { inputValue: value };
 
@@ -40,6 +48,7 @@ export function usePlayer(
             updates = { inputValue: "" }
         } else {
             setServerError("");
+            setIsButtonDisabled(true);
             updates = { balances: data.balances, inputValue: "" };
         }
 
@@ -50,6 +59,7 @@ export function usePlayer(
         handleInputChange,
         handleBalanceChange,
         inputError,
-        serverError
+        serverError,
+        isButtonDisabled
     }
 }
