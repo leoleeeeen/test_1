@@ -5,6 +5,7 @@ import { fetchUsers } from "../../../api/fetchUsers";
 
 export function usePlayers(state: State) {
     const [players, setPlayers] = useState<Player[]>([]);
+    const [notification, setNotification] = useState("");
 
     //получение массива игроков
     useEffect(() => {
@@ -27,6 +28,8 @@ export function usePlayers(state: State) {
 
     return {
         players,
-        updatePlayer
+        updatePlayer,
+        notification,
+        setNotification
     }
 }

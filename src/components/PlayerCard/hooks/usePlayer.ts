@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { updateBalance } from "../../../api/updateBalance";
 import type { Player, Operations } from "../../../pages/PlayersList/PlayersListTypes";
 import { amountValidator } from "../../../utils/amountValidator";
 import { setErrorMessage } from "../../../utils/setErrorMessage";
 
-export function usePlayer(player: Player, updatePlayer: (placeId: number, updates: Partial<Player>) => void) {
+export function usePlayer(
+    player: Player,
+    updatePlayer: (placeId: number, updates: Partial<Player>) => void,
+    setNotification: Dispatch<SetStateAction<string>>) {
+
     const [inputError, setInputError] = useState("");
     const [serverError, setServerError] = useState("");
 
     const handleInputChange = (value: string) => {
         setServerError("");
+        setNotification("");
         setInputError(amountValidator(value));
 
         const updates = { inputValue: value };
@@ -30,7 +35,8 @@ export function usePlayer(player: Player, updatePlayer: (placeId: number, update
         let updates = {};
 
         if (!data.balances) {
-            setServerError(setErrorMessage(data.err));
+            // setServerError(setErrorMessage(data.err));
+            setNotification(setErrorMessage(data.err));
             updates = { inputValue: "" }
         } else {
             setServerError("");

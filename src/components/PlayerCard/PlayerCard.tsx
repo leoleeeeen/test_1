@@ -1,13 +1,24 @@
+import type { Dispatch, SetStateAction } from "react";
 import type { Player } from "../../pages/PlayersList/PlayersListTypes";
 import { usePlayer } from "./hooks/usePlayer";
 
-export function PlayerCard({ player, deviceId, updatePlayer }: { player: Player, deviceId: number, updatePlayer: (placeId: number, updates: Partial<Player>) => void }) {
+export function PlayerCard({
+    player,
+    deviceId,
+    updatePlayer,
+    setNotification
+}: {
+    player: Player,
+    deviceId: number,
+    updatePlayer: (placeId: number, updates: Partial<Player>) => void,
+    setNotification: Dispatch<SetStateAction<string>>
+}) {
     const {
         handleInputChange,
         handleBalanceChange,
         inputError,
         serverError
-    } = usePlayer(player, updatePlayer)
+    } = usePlayer(player, updatePlayer, setNotification)
 
 
     return (
