@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import type { Operations, Player, State } from "../PlayersListTypes";
-import fetchUsers from "../../../api/fetchUsers";
-import updateBalance from "../../../api/updateBalance";
-import amountValidator from "../../../utils/amountValidator";
-import setErrorMessage from "../../../utils/setErrorMessage";
+import type { Player, State } from "../PlayersListTypes";
+import { fetchUsers } from "../../../api/fetchUsers";
 
-export default function usePlayers(state: State) {
+
+export function usePlayers(state: State) {
     const [players, setPlayers] = useState<Player[]>([]);
 
     //получение массива игроков
@@ -16,56 +14,19 @@ export default function usePlayers(state: State) {
         })
     }, [])
 
-    //валидация и установка значения суммы
-    const handleInputChange = (placeId: number, value: string) => {
-        const error = amountValidator(value);
-
+    const updatePlayer = (placeId: number, updates: Partial<Player>) => {
         setPlayers(prev =>
             prev.map(player =>
                 player.place === placeId
-                    ? { ...player, inputValue: value, inputErrorMessage: error, serverErrorMessage: "" }
+                    ? { ...player, ...updates }
                     : player
             )
         );
     };
 
-    //изменение баланса игрока
-    const handleBalanceChange = async (deviceId: number, placeId: number, inputValue: string, operation: Operations) => {
-        if (players.find((player) => player.place === placeId)?.inputErrorMessage) return;
-
-        let delta = Number(inputValue);
-
-        if (operation === "Deposit") {
-            delta = delta;
-        } else {
-            delta = -delta;
-        }
-
-        const data = await updateBalance(deviceId, placeId, delta);
-
-        if (!data.balances) {
-            const error = setErrorMessage(data.err);
-            setPlayers(prev =>
-                prev.map(player =>
-                    player.place === placeId
-                        ? { ...player, serverErrorMessage: error, inputValue: "" }
-                        : player
-                )
-            );
-        } else {
-            setPlayers(prev =>
-                prev.map(player =>
-                    player.place === placeId
-                        ? { ...player, balances: data.balances, serverErrorMessage: "", inputValue: "" }
-                        : player
-                )
-            );
-        }
-    };
 
     return {
         players,
-        handleBalanceChange,
-        handleInputChange
+        updatePlayer
     }
 }

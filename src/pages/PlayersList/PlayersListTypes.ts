@@ -3,8 +3,6 @@ export type Player = {
     place: number;
     balances: number;
     inputValue: string;
-    serverErrorMessage: string;
-    inputErrorMessage: string;
 }
 
 //тип получаемого state из DeviceList

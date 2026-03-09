@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import Layout from "./components/Layout"
-import DevicesList from "./pages/DevicesList/DevicesList"
-import PlayersList from "./pages/PlayersList/PlayersList"
+import { Layout } from "./components/Layout"
+import { DevicesList } from "./pages/DevicesList/DevicesList"
+import { PlayersList } from "./pages/PlayersList/PlayersList"
 
 const router = createBrowserRouter([
   {

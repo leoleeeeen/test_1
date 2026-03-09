@@ -1,5 +1,5 @@
 //компонент футера
-function Footer() {
+export function Footer() {
     return (
         <div>
 
@@ -7,4 +7,4 @@ function Footer() {
     )
 }
 
-export default Footer
+

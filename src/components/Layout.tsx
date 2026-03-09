@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
-import Header from "./Header"
-import Footer from "./Footer"
+import { Header } from "./Header"
+import { Footer } from "./Footer"
 
 //лэйаут с хедером и футером 
-function Layout() {
+export function Layout() {
     return (
         <>
             <Header />
@@ -13,4 +13,4 @@ function Layout() {
     )
 }
 
-export default Layout
+

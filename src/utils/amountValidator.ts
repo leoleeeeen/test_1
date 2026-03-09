@@ -1,5 +1,5 @@
 //валидация вводимой суммы
-export default function amountValidator(value: string) {
+export function amountValidator(value: string) {
     if (!value) return "";
 
     if (!/^[0-9.]+$/.test(value)) {

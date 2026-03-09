@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
 
 //компонент хедера
-function Header() {
+export function Header() {
     return (
         <header className="bg-blue-500 text-white px-8 py-4 h-20 flex items-center justify-between">
             <p className="font-semibold text-xl">Balance checker</p>
@@ -10,4 +10,3 @@ function Header() {
     )
 }
 
-export default Header

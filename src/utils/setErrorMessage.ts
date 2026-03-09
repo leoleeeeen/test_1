@@ -1,5 +1,5 @@
 //обработка ошибок сервера
-export default function setErrorMessage(error: string) {
+export function setErrorMessage(error: string) {
     if (error.includes("enough")) {
         return "Balance not enough"
     }
