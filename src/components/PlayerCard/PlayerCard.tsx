@@ -1,26 +1,18 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { Player } from "../../pages/PlayersList/PlayersListTypes";
 import { usePlayer } from "./hooks/usePlayer";
+import type { PlayerCardProps } from "./PlayerCardTypes";
 
 export function PlayerCard({
     player,
     deviceId,
     updatePlayer,
     setNotification
-}: {
-    player: Player,
-    deviceId: number,
-    updatePlayer: (placeId: number, updates: Partial<Player>) => void,
-    setNotification: Dispatch<SetStateAction<string>>
-}) {
+}: PlayerCardProps) {
     const {
         handleInputChange,
         handleBalanceChange,
         inputError,
-        serverError,
         isButtonDisabled
-    } = usePlayer(player, updatePlayer, setNotification)
-
+    } = usePlayer(player, updatePlayer, setNotification);
 
     return (
         <>
@@ -37,7 +29,6 @@ export function PlayerCard({
                 />
                 <div className="h-5">
                     {inputError && <p className="text-red-800 text-sm">{inputError}</p>}
-                    {serverError && <p className="text-red-800 text-sm">{serverError}</p>}
                 </div>
                 <div className="flex flex-col md:flex-row justify-between gap-2">
                     <button

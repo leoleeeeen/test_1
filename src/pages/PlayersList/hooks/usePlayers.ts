@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import type { Player, State } from "../PlayersListTypes";
-import { fetchUsers } from "../../../api/fetchUsers";
+import type { Player } from "../PlayersListTypes";
+import { useLocation } from "react-router-dom";
+import { fetchUsers } from "@/api/fetchUsers";
 
 
-export function usePlayers(state: State) {
+export function usePlayers() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [notification, setNotification] = useState("");
+    const { state } = useLocation();
 
     //получение массива игроков
     useEffect(() => {
@@ -33,6 +35,7 @@ export function usePlayers(state: State) {
     };
 
     return {
+        state,
         players,
         updatePlayer,
         notification,

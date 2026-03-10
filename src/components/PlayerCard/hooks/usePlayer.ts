@@ -1,8 +1,9 @@
+import { updateBalance } from "@/api/updateBalance";
+import type { Player, Operations } from "@/pages/PlayersList/PlayersListTypes";
+import { amountValidator } from "@/utils/amountValidator";
+import { setErrorMessage } from "@/utils/setErrorMessage";
 import { useState, type Dispatch, type SetStateAction } from "react";
-import { updateBalance } from "../../../api/updateBalance";
-import type { Player, Operations } from "../../../pages/PlayersList/PlayersListTypes";
-import { amountValidator } from "../../../utils/amountValidator";
-import { setErrorMessage } from "../../../utils/setErrorMessage";
+
 
 export function usePlayer(
     player: Player,
@@ -45,6 +46,7 @@ export function usePlayer(
         if (!data.balances) {
             setServerError(setErrorMessage(data.err));
             setNotification(setErrorMessage(data.err));
+            setIsButtonDisabled(true);
             updates = { inputValue: "" }
         } else {
             setServerError("");

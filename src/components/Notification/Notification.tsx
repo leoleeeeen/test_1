@@ -1,4 +1,6 @@
-export function Notification({ notification, onClose }: { notification: string, onClose: () => void }) {
+import type { NotificationProps } from "./NotificationTypes"
+
+export function Notification({ notification, onClose }: NotificationProps) {
     if (!notification) return null;
 
     return (

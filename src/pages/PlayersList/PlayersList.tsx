@@ -1,18 +1,17 @@
-import { useLocation } from "react-router-dom"
 import type { Player } from "./PlayersListTypes";
 import { usePlayers } from "./hooks/usePlayers";
-import { PlayerCard } from "../../components/PlayerCard/PlayerCard";
-import { Notification } from "../../components/Notification";
-
+import { PlayerCard } from "@/components/PlayerCard/PlayerCard";
+import { Notification } from "@/components/Notification/Notification";
 
 
 //отображение списка пользователей 
 export function PlayersList() {
-    const { state } = useLocation();
-    const { players,
+    const {
+        state,
+        players,
         updatePlayer,
         notification,
-        setNotification } = usePlayers(state);
+        setNotification } = usePlayers();
 
     return (
         <div className="px-8">
