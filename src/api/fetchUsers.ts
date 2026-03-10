@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchUsers(deviceId: number) {
     try {
-        const res = await fetch(`${API_URL}/api/v1/a/devices/${deviceId}/`);
+        const res = await fetch(`${API_URL}/${deviceId}/`);
         if (!res.ok) {
             throw new Error("Failed to load players");
         }

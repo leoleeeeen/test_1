@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function updateBalance(deviceId: number, placeId: number, delta: number) {
     const response = await fetch(
-        `${API_URL}/api/v1/a/devices/${deviceId}/place/${placeId}/update`,
+        `${API_URL}/${deviceId}/place/${placeId}/update`,
         {
             method: "POST",
             headers: {
