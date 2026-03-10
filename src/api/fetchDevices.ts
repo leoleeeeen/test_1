@@ -5,7 +5,7 @@ export async function fetchDevices() {
     try {
         const res = await fetch(`${API_URL}/api/v1/a/devices/`);
         if (!res.ok) {
-            throw new Error("Failed to fetch devices");
+            throw new Error("Failed to load devices");
         }
         const data = await res.json();
         return data;

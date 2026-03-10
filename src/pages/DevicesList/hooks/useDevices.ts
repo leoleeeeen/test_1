@@ -6,15 +6,25 @@ import { fetchDevices } from "../../../api/fetchDevices";
 
 export function useDevices() {
     const [devices, setDevices] = useState<Device[] | null>(null);
+    const [notification, setNotification] = useState("");
 
     //получение и установка списка устройств
     useEffect(() => {
-        fetchDevices().then(data => {
-            setDevices(data);
-        });
+        const loadDevices = async () => {
+            try {
+                const data = await fetchDevices();
+                setDevices(data);
+            } catch (error) {
+                if (error instanceof Error) setNotification(error.message || "Failed to load devices");
+            }
+        };
+
+        loadDevices();
     }, []);
 
     return {
-        devices
+        devices,
+        notification,
+        setNotification
     }
 }

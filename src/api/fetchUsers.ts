@@ -5,7 +5,7 @@ export async function fetchUsers(deviceId: number) {
     try {
         const res = await fetch(`${API_URL}/api/v1/a/devices/${deviceId}/`);
         if (!res.ok) {
-            throw new Error("Failed to fetch users");
+            throw new Error("Failed to load players");
         }
         const data = await res.json();
         return data;

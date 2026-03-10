@@ -43,7 +43,7 @@ export function usePlayer(
         let updates = {};
 
         if (!data.balances) {
-            // setServerError(setErrorMessage(data.err));
+            setServerError(setErrorMessage(data.err));
             setNotification(setErrorMessage(data.err));
             updates = { inputValue: "" }
         } else {

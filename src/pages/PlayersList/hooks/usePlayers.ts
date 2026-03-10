@@ -9,10 +9,17 @@ export function usePlayers(state: State) {
 
     //получение массива игроков
     useEffect(() => {
-        fetchUsers(state.deviceId).then((data) => {
-            const { places: players } = data;
-            setPlayers(players);
-        })
+        const loadPlayers = async () => {
+            try {
+                const data = await fetchUsers(state.deviceId);
+                const { places: players } = data;
+                setPlayers(players);
+            } catch (error: any) {
+                if (error instanceof Error) setNotification(error.message || "Failed to load players");
+            }
+        };
+
+        loadPlayers();
     }, [])
 
     const updatePlayer = (placeId: number, updates: Partial<Player>) => {

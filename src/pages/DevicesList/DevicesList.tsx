@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom"
 import type { Device } from "./DevicesListTypes";
 import { useDevices } from "./hooks/useDevices";
+import { Notification } from "../../components/Notification";
 
 //отображение списка устройств
 export function DevicesList() {
-    const { devices } = useDevices();
+    const { devices,
+        notification,
+        setNotification } = useDevices();
 
     return (
         <div className="px-8 mb-8">
@@ -18,6 +21,7 @@ export function DevicesList() {
                     </Link>
                 )}
             </ul>
+            {notification && <Notification notification={notification} onClose={() => setNotification("")}></Notification>}
         </div>
     )
 }
