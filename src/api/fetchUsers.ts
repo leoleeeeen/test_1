@@ -1,14 +1,10 @@
-//получение списка пользователей
-const API_URL = import.meta.env.VITE_API_URL;
+import { httpService } from "./httpService";
 
+//получение списка пользователей
 export async function fetchUsers(deviceId: number) {
     try {
-        const res = await fetch(`${API_URL}/${deviceId}/`);
-        if (!res.ok) {
-            throw new Error("Failed to load players");
-        }
-        const data = await res.json();
-        return data;
+        const response = await httpService.get(`/${deviceId}/`)
+        return response;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message);

@@ -13,7 +13,7 @@ export function DevicesList() {
         <div className="px-8 mb-8">
             <h1 className="font-bold text-3xl text-gray-800 py-8">Devices list</h1>
             <ul className="flex flex-col gap-2">
-                {devices && devices.map((device: Device) =>
+                {devices?.map((device: Device) =>
                     <Link key={device.id} to={`/device/${device.id}`} state={{ deviceName: device.name, deviceId: device.id }}>
                         <li className="py-2 px-4 rounded-xl shadow-[0_0_5px_rgba(0,0,0,0.20)]">
                             <p className="inline">{device.name}</p>

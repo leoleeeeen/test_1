@@ -13,8 +13,8 @@ export function usePlayers() {
     useEffect(() => {
         const loadPlayers = async () => {
             try {
-                const data = await fetchUsers(state.deviceId);
-                const { places: players } = data;
+                const response = await fetchUsers(state.deviceId);
+                const { places: players } = response?.data;
                 setPlayers(players);
             } catch (error: any) {
                 if (error instanceof Error) setNotification(error.message || "Failed to load players");

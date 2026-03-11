@@ -10,8 +10,8 @@ export function useDevices() {
     useEffect(() => {
         const loadDevices = async () => {
             try {
-                const data = await fetchDevices();
-                setDevices(data);
+                const response = await fetchDevices();
+                setDevices(response?.data);
             } catch (error) {
                 if (error instanceof Error) setNotification(error.message || "Failed to load devices");
             }

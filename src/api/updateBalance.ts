@@ -1,18 +1,16 @@
+import { httpService } from "./httpService";
+
 //запрос на изменение баланса
-const API_URL = import.meta.env.VITE_API_URL;
-
 export async function updateBalance(deviceId: number, placeId: number, delta: number) {
-    const response = await fetch(
-        `${API_URL}/${deviceId}/place/${placeId}/update`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ delta })
-        }
-    );
+    try {
+        const response = await httpService.post(
+            `/${deviceId}/place/${placeId}/update`,
+            { delta })
 
-    const data = await response.json();
-    return data;
+        return response;
+    } catch (error: any) {
+        const serverError = error.response;
+
+        return serverError;
+    }
 }

@@ -40,7 +40,9 @@ export function usePlayer(
             delta = -delta;
         }
 
-        const data = await updateBalance(deviceId, player.place, delta);
+        const response = await updateBalance(deviceId, player.place, delta);
+        console.log(response);
+        const data = response.data;
         let updates = {};
 
         if (!data.balances) {

@@ -1,14 +1,10 @@
-//получение списка девайсов
-const API_URL = import.meta.env.VITE_API_URL;
+import { httpService } from "./httpService";
 
+//получение списка девайсов
 export async function fetchDevices() {
     try {
-        const res = await fetch(`${API_URL}/`);
-        if (!res.ok) {
-            throw new Error("Failed to load devices");
-        }
-        const data = await res.json();
-        return data;
+        const response = await httpService.get(`/`);
+        return response;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message);
