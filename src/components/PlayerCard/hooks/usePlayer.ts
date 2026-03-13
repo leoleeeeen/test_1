@@ -1,5 +1,6 @@
-import { updateBalance } from "@/api/updateBalance";
-import type { Player, Operations } from "@/pages/PlayersList/PlayersListTypes";
+import type { ApiResult } from "@/api/services";
+import { updateBalance, type UpdateBalanceResponse } from "@/api/updateBalance";
+import type { Player } from "@/pages/PlayersList/PlayersListTypes";
 import { amountValidator } from "@/utils/amountValidator";
 import { setErrorMessage } from "@/utils/setErrorMessage";
 import { useState, type Dispatch, type SetStateAction } from "react";
@@ -29,23 +30,12 @@ export function usePlayer(
         setInputValue(value);
     };
 
-    const handleBalanceChange = async (deviceId: number, inputValue: string, operation: Operations) => {
-        if (!inputValue) return;
-
-        let delta = Number(inputValue);
-
-        if (operation === "Withdraw") {
-            delta = -delta;
-        }
-
-        const response = await updateBalance(deviceId, player.place, delta);
-
-
+    const handleBalanceChangeResponse = (response: ApiResult<UpdateBalanceResponse>) => {
         if (!response.ok) {
-            setServerError(setErrorMessage(response.error));
             setNotification(setErrorMessage(response.error));
-            setIsButtonDisabled(false);
+            setServerError(setErrorMessage(response.error));
             setInputValue("");
+            setIsButtonDisabled(false);
         } else {
             setServerError("");
             setInputValue("");
@@ -53,11 +43,32 @@ export function usePlayer(
         }
 
         updatePlayers();
+    }
+
+    const handleDeposit = async (deviceId: number, inputValue: string) => {
+        if (!inputValue) return;
+
+        const delta = Number(inputValue);
+
+        const response = await updateBalance(deviceId, player.place, delta);
+
+        handleBalanceChangeResponse(response);
+    };
+
+    const handleWithdraw = async (deviceId: number, inputValue: string) => {
+        if (!inputValue) return;
+
+        const delta = -Number(inputValue);
+
+        const response = await updateBalance(deviceId, player.place, delta);
+
+        handleBalanceChangeResponse(response);
     };
 
     return {
         handleInputChange,
-        handleBalanceChange,
+        handleDeposit,
+        handleWithdraw,
         inputValue,
         inputError,
         serverError,

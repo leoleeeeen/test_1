@@ -1,6 +1,6 @@
 import { httpClient } from "./services";
 
-type UpdateBalanceResponse = {
+export type UpdateBalanceResponse = {
     balances: number;
     currency: string;
     device_id: number;

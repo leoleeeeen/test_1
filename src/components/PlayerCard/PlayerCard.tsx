@@ -9,7 +9,8 @@ export function PlayerCard({
 }: PlayerCardProps) {
     const {
         handleInputChange,
-        handleBalanceChange,
+        handleDeposit,
+        handleWithdraw,
         inputValue,
         inputError,
         isButtonDisabled
@@ -33,17 +34,23 @@ export function PlayerCard({
                 </div>
                 <div className="flex flex-col md:flex-row justify-between gap-2">
                     <button
-                        onClick={() => handleBalanceChange(deviceId, inputValue, "Deposit")}
+                        onClick={() => handleDeposit(deviceId, inputValue)}
                         type="button"
-                        className={`bg-blue-500 text-white px-4 py-2 rounded-md w-full cursor-pointer ${isButtonDisabled && "opacity-75"}`}
+                        className={`px-4 py-2 rounded-md w-full 
+                            ${isButtonDisabled
+                                ? "opacity-40 bg-gray-300 text-black cursor-not-allowed  outline outline-gray-600"
+                                : "bg-blue-500 text-white cursor-pointer"}`}
                         disabled={isButtonDisabled}
                     >
                         Deposit
                     </button>
                     <button
-                        onClick={() => handleBalanceChange(deviceId, inputValue, "Withdraw")}
+                        onClick={() => handleWithdraw(deviceId, inputValue)}
                         type="button"
-                        className={`bg-red-500 text-white px-4 py-2 rounded-md w-full cursor-pointer ${isButtonDisabled && "opacity-75"}`}
+                        className={` px-4 py-2 rounded-md w-full 
+                            ${isButtonDisabled
+                                ? "opacity-40 bg-gray-300 text-black cursor-not-allowed outline outline-gray-600"
+                                : "bg-red-500 text-white cursor-pointer"}`}
                         disabled={isButtonDisabled}
                     >
                         Withdraw

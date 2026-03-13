@@ -9,6 +9,3 @@ export type State = {
     deviceName: string;
     deviceId: number;
 }
-
-//тип операции с балансом
-export type Operations = "Deposit" | "Withdraw";
