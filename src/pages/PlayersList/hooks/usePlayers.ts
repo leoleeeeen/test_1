@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Player } from "../PlayersListTypes";
 import { useLocation } from "react-router-dom";
-import { fetchUsers } from "@/api/fetchUsers";
+import { fetchUsers, type FetchUsersResponse } from "@/api/fetchUsers";
+import type { ApiResult } from "@/api/services";
 
 
 export function usePlayers() {
@@ -9,35 +10,38 @@ export function usePlayers() {
     const [notification, setNotification] = useState("");
     const { state } = useLocation();
 
+    const handlePlayersResponse = (response: ApiResult<FetchUsersResponse>) => {
+        if (!response.ok) {
+            setPlayers([]);
+            setNotification(response.error || "Failed to load players");
+            return;
+        }
+
+        const { places: players } = response.data;
+        setPlayers(players);
+    }
+
+    const updatePlayers = async () => {
+        const response = await fetchUsers(state.deviceId);
+        handlePlayersResponse(response);
+    };
+
     //получение массива игроков
     useEffect(() => {
         const loadPlayers = async () => {
-            try {
-                const response = await fetchUsers(state.deviceId);
-                const { places: players } = response?.data;
-                setPlayers(players);
-            } catch (error: any) {
-                if (error instanceof Error) setNotification(error.message || "Failed to load players");
-            }
+            const response = await fetchUsers(state.deviceId);
+            handlePlayersResponse(response);
         };
 
         loadPlayers();
-    }, [])
+    }, [state.deviceId])
 
-    const updatePlayer = (placeId: number, updates: Partial<Player>) => {
-        setPlayers(prev =>
-            prev.map(player =>
-                player.place === placeId
-                    ? { ...player, ...updates }
-                    : player
-            )
-        );
-    };
+
 
     return {
         state,
         players,
-        updatePlayer,
+        updatePlayers,
         notification,
         setNotification
     }

@@ -1,16 +1,17 @@
-import { httpService } from "./httpService";
+import { httpClient } from "./services";
+
+type UpdateBalanceResponse = {
+    balances: number;
+    currency: string;
+    device_id: number;
+    place: number;
+}
 
 //запрос на изменение баланса
 export async function updateBalance(deviceId: number, placeId: number, delta: number) {
-    try {
-        const response = await httpService.post(
-            `/${deviceId}/place/${placeId}/update`,
-            { delta })
-
-        return response;
-    } catch (error: any) {
-        const serverError = error.response;
-
-        return serverError;
-    }
+    return httpClient<UpdateBalanceResponse>({
+        url: `/${deviceId}/place/${placeId}/update`,
+        method: "POST",
+        data: { delta }
+    });
 }

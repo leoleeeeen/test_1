@@ -1,13 +1,15 @@
-import { httpService } from "./httpService";
+import { httpClient } from "./services";
+
+type FetchDevicesResponse = {
+    id: number;
+    name: string;
+}
 
 //получение списка девайсов
 export async function fetchDevices() {
-    try {
-        const response = await httpService.get(`/`);
-        return response;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        }
-    }
+
+    return httpClient<FetchDevicesResponse[]>({
+        url: `/`,
+        method: "GET",
+    });
 } 

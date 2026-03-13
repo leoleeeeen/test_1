@@ -7,12 +7,13 @@ import { useState, type Dispatch, type SetStateAction } from "react";
 
 export function usePlayer(
     player: Player,
-    updatePlayer: (placeId: number, updates: Partial<Player>) => void,
+    updatePlayers: () => void,
     setNotification: Dispatch<SetStateAction<string>>) {
 
+    const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState("");
     const [serverError, setServerError] = useState("");
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const handleInputChange = (value: string) => {
         setServerError("");
@@ -20,19 +21,16 @@ export function usePlayer(
         const inputError = amountValidator(value);
         setInputError(inputError);
 
-        if (value && !inputError) {
+        if (!inputError) {
             setIsButtonDisabled(false);
         } else {
             setIsButtonDisabled(true);
         }
-
-        const updates = { inputValue: value };
-
-        updatePlayer(player.place, updates);
+        setInputValue(value);
     };
 
     const handleBalanceChange = async (deviceId: number, inputValue: string, operation: Operations) => {
-        if (inputError) return;
+        if (!inputValue) return;
 
         let delta = Number(inputValue);
 
@@ -41,27 +39,26 @@ export function usePlayer(
         }
 
         const response = await updateBalance(deviceId, player.place, delta);
-        console.log(response);
-        const data = response.data;
-        let updates = {};
 
-        if (!data.balances) {
-            setServerError(setErrorMessage(data.err));
-            setNotification(setErrorMessage(data.err));
-            setIsButtonDisabled(true);
-            updates = { inputValue: "" }
+
+        if (!response.ok) {
+            setServerError(setErrorMessage(response.error));
+            setNotification(setErrorMessage(response.error));
+            setIsButtonDisabled(false);
+            setInputValue("");
         } else {
             setServerError("");
-            setIsButtonDisabled(true);
-            updates = { balances: data.balances, inputValue: "" };
+            setInputValue("");
+            setIsButtonDisabled(false);
         }
 
-        updatePlayer(player.place, updates);
+        updatePlayers();
     };
 
     return {
         handleInputChange,
         handleBalanceChange,
+        inputValue,
         inputError,
         serverError,
         isButtonDisabled

@@ -2,7 +2,6 @@
 export type Player = {
     place: number;
     balances: number;
-    inputValue: string;
 }
 
 //тип получаемого state из DeviceList

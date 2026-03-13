@@ -4,6 +4,6 @@ import type { Dispatch, SetStateAction } from "react"
 export type PlayerCardProps = {
     player: Player,
     deviceId: number,
-    updatePlayer: (placeId: number, updates: Partial<Player>) => void,
+    updatePlayers: () => void,
     setNotification: Dispatch<SetStateAction<string>>
 }

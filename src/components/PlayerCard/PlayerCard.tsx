@@ -4,15 +4,16 @@ import type { PlayerCardProps } from "./PlayerCardTypes";
 export function PlayerCard({
     player,
     deviceId,
-    updatePlayer,
+    updatePlayers,
     setNotification
 }: PlayerCardProps) {
     const {
         handleInputChange,
         handleBalanceChange,
+        inputValue,
         inputError,
         isButtonDisabled
-    } = usePlayer(player, updatePlayer, setNotification);
+    } = usePlayer(player, updatePlayers, setNotification);
 
     return (
         <>
@@ -24,7 +25,7 @@ export function PlayerCard({
                     placeholder="Enter amount"
                     className={`border-2 border-gray-300 focus:outline-none rounded-md p-2 ${inputError ? "border-red-500" : ""}`}
                     onChange={(e) => handleInputChange(e.target.value)}
-                    value={player.inputValue ?? ""}
+                    value={inputValue ?? ""}
                     maxLength={10}
                 />
                 <div className="h-5">
@@ -32,7 +33,7 @@ export function PlayerCard({
                 </div>
                 <div className="flex flex-col md:flex-row justify-between gap-2">
                     <button
-                        onClick={() => handleBalanceChange(deviceId, player.inputValue, "Deposit")}
+                        onClick={() => handleBalanceChange(deviceId, inputValue, "Deposit")}
                         type="button"
                         className={`bg-blue-500 text-white px-4 py-2 rounded-md w-full cursor-pointer ${isButtonDisabled && "opacity-75"}`}
                         disabled={isButtonDisabled}
@@ -40,7 +41,7 @@ export function PlayerCard({
                         Deposit
                     </button>
                     <button
-                        onClick={() => handleBalanceChange(deviceId, player.inputValue, "Withdraw")}
+                        onClick={() => handleBalanceChange(deviceId, inputValue, "Withdraw")}
                         type="button"
                         className={`bg-red-500 text-white px-4 py-2 rounded-md w-full cursor-pointer ${isButtonDisabled && "opacity-75"}`}
                         disabled={isButtonDisabled}

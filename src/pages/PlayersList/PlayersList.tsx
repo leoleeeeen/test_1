@@ -9,7 +9,7 @@ export function PlayersList() {
     const {
         state,
         players,
-        updatePlayer,
+        updatePlayers,
         notification,
         setNotification } = usePlayers();
 
@@ -22,7 +22,7 @@ export function PlayersList() {
                         <PlayerCard
                             player={player}
                             deviceId={state.deviceId}
-                            updatePlayer={updatePlayer}
+                            updatePlayers={updatePlayers}
                             setNotification={setNotification}
                         />
                     </li>)}
