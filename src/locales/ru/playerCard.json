@@ -1,0 +1,7 @@
+{
+    "name": "Игрок {{playerName}}",
+    "balance": "Баланс: {{balance}}",
+    "input_placeholder": "Введите сумму",
+    "deposit_button": "Внести",
+    "withdraw_button": "Снять"
+}

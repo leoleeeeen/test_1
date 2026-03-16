@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { usePlayer } from "./hooks/usePlayer";
 import type { PlayerCardProps } from "./PlayerCardTypes";
 
@@ -15,14 +16,17 @@ export function PlayerCard({
         isButtonDisabled
     } = usePlayer(player, updatePlayers);
 
+    const { t } = useTranslation("playerCard");
     return (
         <>
-            <p className="inline font-bold text-xl text-gray-800">Player {player.place}</p>
-            <p>Balance: {player.balances}</p>
+            <p className="inline font-bold text-xl text-gray-800">
+                {t("name", { playerName: player.place })}
+            </p>
+            <p>{t("balance", { balance: player.balances })}</p>
             <div className="flex flex-col gap-2">
                 <input
                     type="text"
-                    placeholder="Enter amount"
+                    placeholder={t("input_placeholder")}
                     className={`border-2 border-gray-300 focus:outline-none rounded-md p-2 ${inputError ? "border-red-500" : ""}`}
                     onChange={(e) => handleInputChange(e.target.value)}
                     value={inputValue ?? ""}
@@ -41,7 +45,7 @@ export function PlayerCard({
                                 : "bg-blue-500 text-white cursor-pointer"}`}
                         disabled={isButtonDisabled}
                     >
-                        Deposit
+                        {t("deposit_button")}
                     </button>
                     <button
                         onClick={() => handleWithdraw(deviceId, inputValue)}
@@ -52,7 +56,7 @@ export function PlayerCard({
                                 : "bg-red-500 text-white cursor-pointer"}`}
                         disabled={isButtonDisabled}
                     >
-                        Withdraw
+                        {t("withdraw_button")}
                     </button>
                 </div>
             </div>
