@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { routes } from "./routes"
+import { NotificationProvider } from "./context/NotificationProvider"
 
 const router = createBrowserRouter(
   routes,
@@ -9,7 +10,9 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  return <RouterProvider router={router} />
+  return <NotificationProvider>
+    <RouterProvider router={router} />
+  </NotificationProvider>
 }
 
 export default App

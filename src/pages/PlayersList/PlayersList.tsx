@@ -1,7 +1,6 @@
 import type { Player } from "./PlayersListTypes";
 import { usePlayers } from "./hooks/usePlayers";
 import { PlayerCard } from "@/components/PlayerCard/PlayerCard";
-import { Notification } from "@/components/Notification/Notification";
 
 
 //отображение списка пользователей 
@@ -9,9 +8,7 @@ export function PlayersList() {
     const {
         state,
         players,
-        updatePlayers,
-        notification,
-        setNotification } = usePlayers();
+        updatePlayers } = usePlayers();
 
     return (
         <div className="px-8">
@@ -23,11 +20,9 @@ export function PlayersList() {
                             player={player}
                             deviceId={state.deviceId}
                             updatePlayers={updatePlayers}
-                            setNotification={setNotification}
                         />
                     </li>)}
             </ul>
-            {notification && <Notification notification={notification} onClose={() => setNotification("")}></Notification>}
         </div >
     )
 }

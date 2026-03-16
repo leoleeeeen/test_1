@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Player } from "../PlayersListTypes";
 import { useLocation } from "react-router-dom";
 import { fetchUsers, type FetchUsersResponse } from "@/api/fetchUsers";
 import type { ApiResult } from "@/api/services";
+import { useNotification } from "@/context/NotificationContext";
 
 
 export function usePlayers() {
     const [players, setPlayers] = useState<Player[]>([]);
-    const [notification, setNotification] = useState("");
+    const { showNotification } = useNotification();
     const { state } = useLocation();
 
-    const handlePlayersResponse = (response: ApiResult<FetchUsersResponse>) => {
+    const handlePlayersResponse = useCallback((response: ApiResult<FetchUsersResponse>) => {
         if (!response.ok) {
             setPlayers([]);
-            setNotification(response.error || "Failed to load players");
+            showNotification(response.error || "Failed to load players")
             return;
         }
 
         const { places: players } = response.data;
         setPlayers(players);
-    }
+    }, [showNotification]);
 
     const updatePlayers = async () => {
         const response = await fetchUsers(state.deviceId);
@@ -34,15 +35,13 @@ export function usePlayers() {
         };
 
         loadPlayers();
-    }, [state.deviceId])
+    }, [state.deviceId, handlePlayersResponse])
 
 
 
     return {
         state,
         players,
-        updatePlayers,
-        notification,
-        setNotification
+        updatePlayers
     }
 }

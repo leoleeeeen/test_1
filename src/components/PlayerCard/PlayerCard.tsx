@@ -4,8 +4,7 @@ import type { PlayerCardProps } from "./PlayerCardTypes";
 export function PlayerCard({
     player,
     deviceId,
-    updatePlayers,
-    setNotification
+    updatePlayers
 }: PlayerCardProps) {
     const {
         handleInputChange,
@@ -14,7 +13,7 @@ export function PlayerCard({
         inputValue,
         inputError,
         isButtonDisabled
-    } = usePlayer(player, updatePlayers, setNotification);
+    } = usePlayer(player, updatePlayers);
 
     return (
         <>

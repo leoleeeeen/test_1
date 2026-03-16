@@ -1,24 +1,24 @@
 import type { ApiResult } from "@/api/services";
 import { updateBalance, type UpdateBalanceResponse } from "@/api/updateBalance";
+import { useNotification } from "@/context/NotificationContext";
 import type { Player } from "@/pages/PlayersList/PlayersListTypes";
 import { amountValidator } from "@/utils/amountValidator";
 import { setErrorMessage } from "@/utils/setErrorMessage";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState } from "react";
 
 
 export function usePlayer(
     player: Player,
-    updatePlayers: () => void,
-    setNotification: Dispatch<SetStateAction<string>>) {
+    updatePlayers: () => void) {
 
     const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState("");
     const [serverError, setServerError] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const { showNotification } = useNotification();
 
     const handleInputChange = (value: string) => {
         setServerError("");
-        setNotification("");
         const inputError = amountValidator(value);
         setInputError(inputError);
 
@@ -32,7 +32,7 @@ export function usePlayer(
 
     const handleBalanceChangeResponse = (response: ApiResult<UpdateBalanceResponse>) => {
         if (!response.ok) {
-            setNotification(setErrorMessage(response.error));
+            showNotification(setErrorMessage(response.error));
             setServerError(setErrorMessage(response.error));
             setInputValue("");
             setIsButtonDisabled(false);
