@@ -20,5 +20,5 @@ export default defineConfig({
       }
     }
   },
-  base: '/test_1'
+  base: '/test_1/'
 })

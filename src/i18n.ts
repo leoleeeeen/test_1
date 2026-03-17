@@ -9,7 +9,7 @@ i18n.use(Backend).use(LanguageDetector).use(initReactI18next).init({
     fallbackLng: "en",
     ns: ["header", "devices"],
     backend: {
-        loadPath: "/test_1/src/locales/{{lng}}/{{ns}}.json"
+        loadPath: "/test_1/locales/{{lng}}/{{ns}}.json"
     }
 });
 
