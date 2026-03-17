@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { usePlayer } from "./hooks/usePlayer";
 import type { PlayerCardProps } from "./PlayerCardTypes";
 
@@ -13,10 +12,10 @@ export function PlayerCard({
         handleWithdraw,
         inputValue,
         inputError,
-        isButtonDisabled
+        isButtonDisabled,
+        t
     } = usePlayer(player, updatePlayers);
 
-    const { t } = useTranslation("playerCard");
     return (
         <>
             <p className="inline font-bold text-xl text-gray-800">

@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import type { Device } from "../DevicesListTypes";
 import { fetchDevices } from "@/api/fetchDevices";
 import { useNotification } from "@/context/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 export function useDevices() {
     const [devices, setDevices] = useState<Device[] | []>([]);
+    const { t } = useTranslation("devices");
     const { showNotification } = useNotification();
 
     //получение и установка списка устройств
@@ -24,6 +26,7 @@ export function useDevices() {
     }, [showNotification]);
 
     return {
-        devices
+        devices,
+        t
     }
 }

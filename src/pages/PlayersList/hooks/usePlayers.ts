@@ -4,12 +4,15 @@ import { useLocation } from "react-router-dom";
 import { fetchUsers, type FetchUsersResponse } from "@/api/fetchUsers";
 import type { ApiResult } from "@/api/services";
 import { useNotification } from "@/context/NotificationContext";
+import { useTranslation } from "react-i18next";
 
 
 export function usePlayers() {
     const [players, setPlayers] = useState<Player[]>([]);
     const { showNotification } = useNotification();
     const { state } = useLocation();
+    const { t } = useTranslation("players");
+
 
     const handlePlayersResponse = useCallback((response: ApiResult<FetchUsersResponse>) => {
         if (!response.ok) {
@@ -38,10 +41,10 @@ export function usePlayers() {
     }, [state.deviceId, handlePlayersResponse])
 
 
-
     return {
         state,
         players,
-        updatePlayers
+        updatePlayers,
+        t
     }
 }

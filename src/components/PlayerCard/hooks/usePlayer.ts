@@ -5,11 +5,14 @@ import type { Player } from "@/pages/PlayersList/PlayersListTypes";
 import { amountValidator } from "@/utils/amountValidator";
 import { setErrorMessage } from "@/utils/setErrorMessage";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export function usePlayer(
     player: Player,
     updatePlayers: () => void) {
+
+    const { t } = useTranslation("playerCard");
 
     const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState("");
@@ -34,14 +37,11 @@ export function usePlayer(
         if (!response.ok) {
             showNotification(setErrorMessage(response.error));
             setServerError(setErrorMessage(response.error));
-            setInputValue("");
-            setIsButtonDisabled(false);
         } else {
             setServerError("");
-            setInputValue("");
-            setIsButtonDisabled(false);
         }
 
+        setInputValue("");
         updatePlayers();
     }
 
@@ -72,6 +72,7 @@ export function usePlayer(
         inputValue,
         inputError,
         serverError,
-        isButtonDisabled
+        isButtonDisabled,
+        t
     }
 }

@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import type { Player } from "./PlayersListTypes";
 import { usePlayers } from "./hooks/usePlayers";
 import { PlayerCard } from "@/components/PlayerCard/PlayerCard";
@@ -9,9 +8,8 @@ export function PlayersList() {
     const {
         state,
         players,
-        updatePlayers } = usePlayers();
-
-    const { t } = useTranslation("players");
+        updatePlayers,
+        t } = usePlayers();
 
     return (
         <div className="px-8">
