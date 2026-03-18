@@ -6,7 +6,10 @@ import { useNotification } from "@/context/NotificationContext"
 
 //лэйаут с хедером и футером 
 export function Layout() {
-    const { notification, closeNotification } = useNotification();
+    const { notification,
+        closeNotification,
+        pauseNotification,
+        resumeNotification } = useNotification();
     return (
         <>
             <Header />
@@ -14,7 +17,10 @@ export function Layout() {
             <Footer />
             <Notification
                 notification={notification || ""}
-                onClose={closeNotification} />
+                onClose={closeNotification}
+                onMouseEnter={pauseNotification}
+                onMouseLeave={resumeNotification} />
+
         </>
     )
 }

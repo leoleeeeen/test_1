@@ -4,6 +4,8 @@ type NotificationContextType = {
     notification: string | null;
     showNotification: (message: string) => void;
     closeNotification: () => void;
+    pauseNotification: () => void;
+    resumeNotification: () => void;
 };
 
 export const NotificationContext = createContext<NotificationContextType | null>(null);
