@@ -12,7 +12,7 @@ export function Notification({
         <div
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="fixed top-8 right-6 w-60 sm:w-80 bg-white border border-red-200 shadow-xl rounded-xl p-4">
+            className="fixed top-8 right-6 w-60 sm:w-80 bg-white border border-red-200 shadow-xl rounded-xl p-4 animate-fadeInUp">
             <div>
                 <h4 className="font-semibold text-sm">Server error:</h4>
                 <p className="text-sm opacity-90 mt-1">{notification}</p>

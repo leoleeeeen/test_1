@@ -1,17 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Player } from "../PlayersListTypes";
-import { useLocation } from "react-router-dom";
+import type { Player, State } from "../PlayersListTypes";
 import { fetchUsers, type FetchUsersResponse } from "@/api/fetchUsers";
 import type { ApiResult } from "@/api/services";
 import { useNotification } from "@/context/NotificationContext";
-import { useTranslation } from "react-i18next";
 
 
-export function usePlayers() {
+export function usePlayers(state: State) {
     const [players, setPlayers] = useState<Player[]>([]);
     const { showNotification } = useNotification();
-    const { state } = useLocation();
-    const { t } = useTranslation("players");
 
 
     const handlePlayersResponse = useCallback((response: ApiResult<FetchUsersResponse>) => {
@@ -44,7 +40,6 @@ export function usePlayers() {
     return {
         state,
         players,
-        updatePlayers,
-        t
+        updatePlayers
     }
 }
