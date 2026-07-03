@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { usePlayer } from "./hooks/usePlayer";
 import type { PlayerCardProps } from "./PlayerCardTypes";
 
@@ -6,18 +7,19 @@ export function PlayerCard({
     deviceId,
     updatePlayers
 }: PlayerCardProps) {
+    const { t } = useTranslation("playerCard");
+
     const {
         handleInputChange,
         handleDeposit,
         handleWithdraw,
         inputValue,
         inputError,
-        isButtonDisabled,
-        t
+        isButtonDisabled
     } = usePlayer(player, updatePlayers);
 
     return (
-        <>
+        <li className="py-4 px-4 rounded-xl shadow-[0_0_5px_rgba(0,0,0,0.20)] flex flex-col gap-5">
             <p className="inline font-bold text-xl text-gray-800">
                 {t("name", { playerName: player.place })}
             </p>
@@ -59,7 +61,7 @@ export function PlayerCard({
                     </button>
                 </div>
             </div>
-        </>
+        </li>
     )
 }
 

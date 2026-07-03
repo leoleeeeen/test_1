@@ -1,28 +1,31 @@
+import { useTranslation } from "react-i18next";
 import type { Player } from "./PlayersListTypes";
 import { usePlayers } from "./hooks/usePlayers";
 import { PlayerCard } from "@/components/PlayerCard/PlayerCard";
+import { useLocation } from "react-router-dom";
 
 
 //отображение списка пользователей 
 export function PlayersList() {
+    const { t } = useTranslation("players");
+    const { state } = useLocation();
+
     const {
-        state,
         players,
-        updatePlayers,
-        t } = usePlayers();
+        updatePlayers } = usePlayers(state);
 
     return (
         <div className="px-8">
             <h1 className="font-bold text-3xl text-gray-800 py-8">{t("device_players", { deviceName: state.deviceName })} </h1>
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
                 {players.map((player: Player) =>
-                    <li key={player.place} className="py-4 px-4 rounded-xl shadow-[0_0_5px_rgba(0,0,0,0.20)] flex flex-col gap-5">
-                        <PlayerCard
-                            player={player}
-                            deviceId={state.deviceId}
-                            updatePlayers={updatePlayers}
-                        />
-                    </li>)}
+                    <PlayerCard
+                        key={player.place}
+                        player={player}
+                        deviceId={state.deviceId}
+                        updatePlayers={updatePlayers}
+                    />
+                )}
             </ul>
         </div >
     )

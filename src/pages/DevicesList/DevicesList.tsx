@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom"
 import type { Device } from "./DevicesListTypes";
 import { useDevices } from "./hooks/useDevices";
+import { useTranslation } from "react-i18next";
 
 
 //отображение списка устройств
 export function DevicesList() {
-    const { devices, t } = useDevices();
+    const { t } = useTranslation("devices");
+    const { devices } = useDevices();
 
     return (
         <div className="px-8 mb-8">

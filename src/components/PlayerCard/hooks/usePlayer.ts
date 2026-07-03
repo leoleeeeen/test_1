@@ -1,27 +1,22 @@
-import type { ApiResult } from "@/api/services";
-import { updateBalance, type UpdateBalanceResponse } from "@/api/updateBalance";
+import { updateBalance } from "@/api/updateBalance";
 import { useNotification } from "@/context/NotificationContext";
 import type { Player } from "@/pages/PlayersList/PlayersListTypes";
 import { amountValidator } from "@/utils/amountValidator";
 import { setErrorMessage } from "@/utils/setErrorMessage";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 
 export function usePlayer(
     player: Player,
     updatePlayers: () => void) {
 
-    const { t } = useTranslation("playerCard");
 
     const [inputValue, setInputValue] = useState("");
     const [inputError, setInputError] = useState("");
-    const [serverError, setServerError] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const { showNotification } = useNotification();
 
     const handleInputChange = (value: string) => {
-        setServerError("");
         const inputError = amountValidator(value);
         setInputError(inputError);
 
@@ -33,12 +28,14 @@ export function usePlayer(
         setInputValue(value);
     };
 
-    const handleBalanceChangeResponse = (response: ApiResult<UpdateBalanceResponse>) => {
+
+    const handleChangeBalance = async (deviceId: number, delta: number) => {
+        if (!delta) return;
+
+        const response = await updateBalance(deviceId, player.place, delta);
+
         if (!response.ok) {
             showNotification(setErrorMessage(response.error));
-            setServerError(setErrorMessage(response.error));
-        } else {
-            setServerError("");
         }
 
         setInputValue("");
@@ -46,23 +43,11 @@ export function usePlayer(
     }
 
     const handleDeposit = async (deviceId: number, inputValue: string) => {
-        if (!inputValue) return;
-
-        const delta = Number(inputValue);
-
-        const response = await updateBalance(deviceId, player.place, delta);
-
-        handleBalanceChangeResponse(response);
+        handleChangeBalance(deviceId, Number(inputValue));
     };
 
     const handleWithdraw = async (deviceId: number, inputValue: string) => {
-        if (!inputValue) return;
-
-        const delta = -Number(inputValue);
-
-        const response = await updateBalance(deviceId, player.place, delta);
-
-        handleBalanceChangeResponse(response);
+        handleChangeBalance(deviceId, -Number(inputValue));
     };
 
     return {
@@ -71,8 +56,6 @@ export function usePlayer(
         handleWithdraw,
         inputValue,
         inputError,
-        serverError,
-        isButtonDisabled,
-        t
+        isButtonDisabled
     }
 }

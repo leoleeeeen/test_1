@@ -29,7 +29,7 @@ export const httpClient = async <T>(
             data: response.data
         };
 
-    } catch (error: unknown) {
+    } catch (error) {
 
         if (axios.isAxiosError<{ err?: string }>(error)) {
             return {
